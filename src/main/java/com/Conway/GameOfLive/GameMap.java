@@ -13,8 +13,14 @@ public class GameMap {
         this.height = height;
     }
 
-    //convert string to Gamemap
-    public GameMap convertStringToGameMap(String mapString) {
+    /**
+     * This method generates the gameMap based on the passed string.
+     * 0 - dead (infected)
+     * 1 - alive (recovered)
+     * @param mapString
+     * @return the gameMap
+     */
+    public Tile[][] convertStringToGameMap(String mapString) {
         String[] mapLines = mapString.lines().toArray(String[]::new);
 
         String[] s = mapLines[0].split(" ");
@@ -24,11 +30,13 @@ public class GameMap {
         //Gamemap
         map = new Tile[width][height];
         for (int i = 0; i < height; i++) {
-            Tile[] lines = mapLines[i+1].replaceAll(" ","").toTileArray();
+            char[] lines = mapLines[i+1].replaceAll(" ","").toCharArray();
             for (int j = 0; j < lines.length; j++) {
-                map[i][j] = lines[j];
+                map[i][j].setState(lines[j] == '0' ? State.INFECT : State.RECOVERY);
             }
         }
+
+        return map;
     }
 
  /*   public Tile[] toTileArray(String[] array) {

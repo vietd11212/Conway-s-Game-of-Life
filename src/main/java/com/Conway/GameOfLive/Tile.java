@@ -1,7 +1,8 @@
 package com.Conway.GameOfLive;
 
 public class Tile {
-    State state;
+
+    private State state;
 
     public Tile(State state) {
         this.state = state;
@@ -12,5 +13,8 @@ public class Tile {
         return state;
     }
 
-
+    // Setter
+    public void setState(State state) {
+        this.state = state;
+    }
 }
