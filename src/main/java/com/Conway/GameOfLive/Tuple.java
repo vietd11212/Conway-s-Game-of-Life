@@ -1,3 +1,5 @@
+package com.Conway.GameOfLive;
+
 public class Tuple {
     int x;
     int y;
