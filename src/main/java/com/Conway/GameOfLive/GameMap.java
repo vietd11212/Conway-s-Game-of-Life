@@ -1,5 +1,6 @@
 package com.Conway.GameOfLive;
 
+
 public class GameMap {
     private static GameMap instance;
     Tile [][]map;
@@ -32,19 +33,12 @@ public class GameMap {
         for (int i = 0; i < height; i++) {
             char[] lines = mapLines[i+1].replaceAll(" ","").toCharArray();
             for (int j = 0; j < lines.length; j++) {
-                map[i][j].setState(lines[j] == '0' ? State.INFECT : State.RECOVERY);
+                map[i][j].setState(lines[j] == '0' ? State.INFECT : State.SUSPECTED);
             }
         }
 
         return map;
     }
-
- /*   public Tile[] toTileArray(String[] array) {
-        Tile[] tileArray = new Tile [array.length];
-        for (int i = 0; i < array.length; i++) {
-            tileArray[i] = (State)array[i];
-        }
-    }*/
 
     //Getter
     public static GameMap getInstance(int width, int height) throws Exception{
@@ -63,8 +57,5 @@ public class GameMap {
         }
         return instance;
     }
-
-
-
 
 }
