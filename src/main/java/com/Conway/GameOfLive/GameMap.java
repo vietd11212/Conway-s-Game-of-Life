@@ -1,6 +1,11 @@
 package com.Conway.GameOfLive;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
+
 public class GameMap {
     private static GameMap instance;
     Tile [][]map;
@@ -8,11 +13,8 @@ public class GameMap {
     static int height;
 
 
-    //Contructor
-    private GameMap(int width, int height){
-        this.width = width;
-        this.height = height;
-    }
+   //Contructor
+    private GameMap () {}
 
     /**
      * This method generates the gameMap based on the passed string.
@@ -21,7 +23,7 @@ public class GameMap {
      * @param mapString
      * @return the gameMap
      */
-    public Tile[][] convertStringToGameMap(String mapString) {
+    public void convertStringToGameMap(String mapString) {
         String[] mapLines = mapString.lines().toArray(String[]::new);
 
         String[] s = mapLines[0].split(" ");
@@ -36,26 +38,20 @@ public class GameMap {
                 map[i][j].setState(lines[j] == '0' ? State.INFECT : State.SUSPECTED);
             }
         }
+    }
 
-        return map;
+    public void generateGameMapFromTextFile(String mapName) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(String.format("/%s",mapName))))) {
+            convertStringToGameMap(br.lines().collect(Collectors.joining("\n")));
+        } catch (IOException e) {
+            System.err.println("Couldn't read file.");
+            e.printStackTrace();
+        }
     }
 
     //Getter
-    public static GameMap getInstance(int width, int height) throws Exception{
-        try{
-            if (instance == null) {
-                instance = new GameMap(width, height);
-            } else {
-                if (GameMap.width == width && GameMap.height == height) {
-                    return instance;
-                } else {
-                    throw new DimesionExeption(width,height);
-                }
-            }
-        }catch (DimesionExeption e) {
-            e.printStackTrace();
-        }
-        return instance;
+    public static GameMap getInstance(){
+        return (instance == null) ? instance = new GameMap() : instance;
     }
 
 }
